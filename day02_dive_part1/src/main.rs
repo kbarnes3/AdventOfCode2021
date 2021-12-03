@@ -1,8 +1,8 @@
 #[allow(unused_imports)]
-use day02_dive_common::{Command, Direction, SAMPLE_DATA};
+use day02_dive_common::{Command, Direction, SAMPLE_DATA, REAL_DATA};
 
 fn main() {
-    let result: u32 = do_work(SAMPLE_DATA);
+    let result: u32 = do_work(REAL_DATA);
     println!("{}", result);
 }
 
