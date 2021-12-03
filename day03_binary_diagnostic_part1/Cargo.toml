@@ -1,0 +1,9 @@
+[package]
+name = "day03_binary_diagnostic_part1"
+version = "0.1.0"
+edition = "2021"
+
+# See more keys and their definitions at https://doc.rust-lang.org/cargo/reference/manifest.html
+
+[dependencies]
+day03_binary_diagnostic_common = { path = "../day03_binary_diagnostic_common" }
