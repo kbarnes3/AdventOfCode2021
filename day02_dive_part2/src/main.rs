@@ -9,12 +9,16 @@ fn main() {
 fn do_work<const N: usize>(data: [Command; N]) -> u32 {
     let mut position = 0;
     let mut depth = 0;
+    let mut aim = 0;
 
     for command in data {
         match command.direction {
-            Direction::Forward => position += command.distance,
-            Direction::Down => depth += command.distance,
-            Direction::Up => depth -= command.distance
+            Direction::Forward => {
+                position += command.distance;
+                depth += command.distance * aim;
+            },
+            Direction::Down => aim += command.distance,
+            Direction::Up => aim -= command.distance
         }
     }
 
