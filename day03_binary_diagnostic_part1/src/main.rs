@@ -1,8 +1,8 @@
 #[allow(unused_imports)]
-use day03_binary_diagnostic_common::{SAMPLE_DATA};
+use day03_binary_diagnostic_common::{SAMPLE_DATA, REAL_DATA};
 
 fn main() {
-    let result: u32 = do_work(SAMPLE_DATA);
+    let result: u32 = do_work(REAL_DATA);
     println!("{}", result);
 }
 
