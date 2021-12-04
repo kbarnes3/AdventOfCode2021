@@ -6,6 +6,7 @@ $Programs =
     @{"name" = "day02_dive_part1"; "output" = "2187380"},
     @{"name" = "day02_dive_part2"; "output" = "2086357770"},
     @{"name" = "day03_binary_diagnostic_part1"; "output" = "1071734"}
+    @{"name" = "day03_binary_diagnostic_part2"; "output" = "6124992"}
 
 for ($i = 0; $i -lt $Programs.Length; $i++) {
     $program = $Programs[$i]
