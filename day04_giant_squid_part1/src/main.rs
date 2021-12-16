@@ -3,5 +3,5 @@ use day04_giant_squid_common::{SAMPLE_DATA};
 
 fn main() {
     let result = SAMPLE_DATA;
-    println!("{}", result);
+    println!("{}", 2);
 }
