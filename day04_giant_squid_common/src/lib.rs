@@ -1,5 +1,7 @@
+pub const BOARDSIZE: usize = 5;
+
 pub struct BingoBoard {
-    pub board: [[u32; 5]; 5],
+    pub board: [[u32; BOARDSIZE]; BOARDSIZE],
 }
 
 pub struct InputData<const N: usize, const B: usize> {
