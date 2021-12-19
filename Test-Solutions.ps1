@@ -7,7 +7,8 @@ $Programs =
     @{"name" = "day02_dive_part2"; "output" = "2086357770"},
     @{"name" = "day03_binary_diagnostic_part1"; "output" = "1071734"},
     @{"name" = "day03_binary_diagnostic_part2"; "output" = "6124992"},
-    @{"name" = "day04_giant_squid_part1"; "output" = "22680"}
+    @{"name" = "day04_giant_squid_part1"; "output" = "22680"},
+    @{"name" = "day04_giant_squid_part2"; "output" = "16168"}
 
 for ($i = 0; $i -lt $Programs.Length; $i++) {
     $program = $Programs[$i]
@@ -16,8 +17,8 @@ for ($i = 0; $i -lt $Programs.Length; $i++) {
 
     $currentOperation = "Testing $name"
     $percent = $i / $Programs.Length * 100
-    $status = "Program $($i + 1) of $($Programs.Length)"
-    Write-Progress -Id 0 -Activity " " -CurrentOperation $currentOperation -PercentComplete $percent -Status $status
+    $status = "$($i + 1)/$($Programs.Length) $name"
+    Write-Progress -Id 0 -Activity "Test Solutions" -CurrentOperation $currentOperation -PercentComplete $percent -Status $status
 
     Push-Location (Join-Path $ProjectRoot $name)
     Write-Host "`u{1F9F1} Building $name"

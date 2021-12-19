@@ -17,17 +17,17 @@ fn main() {
 }
 
 fn do_work<const N: usize, const B: usize>(data: &InputData<N, B>) -> u32 {
-    let mut first_winner: (usize, u32) = (N + 1, 0);
+    let mut last_winner: (usize, u32) = (0, 0);
     for board in &data.boards {
         let new_score = get_score_for_board(&data.draw_numbers, &board);
-        let (current_first_win_number, _) = first_winner;
+        let (current_last_win_number, _) = last_winner;
         let (new_board_win_number, _) = new_score;
-        if new_board_win_number < current_first_win_number {
-            first_winner = new_score;
+        if new_board_win_number > current_last_win_number {
+            last_winner = new_score;
         }
     }
 
-    let (_, score) = first_winner;
+    let (_, score) = last_winner;
     score
 }
 
