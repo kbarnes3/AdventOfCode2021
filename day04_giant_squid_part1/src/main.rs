@@ -1,5 +1,5 @@
 #[allow(unused_imports)]
-use day04_giant_squid_common::{BOARDSIZE, BingoBoard, InputData, SAMPLE_DATA};
+use day04_giant_squid_common::{BOARDSIZE, BingoBoard, InputData, SAMPLE_DATA, REAL_DATA};
 
 struct CalledBoard {
     pub board: [[bool; BOARDSIZE]; BOARDSIZE]
@@ -12,7 +12,7 @@ impl CalledBoard {
 }
 
 fn main() {
-    let result = do_work(&SAMPLE_DATA);
+    let result = do_work(&REAL_DATA);
     println!("{}", result);
 }
 
