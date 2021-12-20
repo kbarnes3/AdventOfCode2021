@@ -8,7 +8,8 @@ $Programs =
     @{"name" = "day03_binary_diagnostic_part1"; "output" = "1071734"},
     @{"name" = "day03_binary_diagnostic_part2"; "output" = "6124992"},
     @{"name" = "day04_giant_squid_part1"; "output" = "22680"},
-    @{"name" = "day04_giant_squid_part2"; "output" = "16168"}
+    @{"name" = "day04_giant_squid_part2"; "output" = "16168"},
+    @{"name" = "day05_hydrothermal_venture_part1"; "output" = "5690"}
 
 for ($i = 0; $i -lt $Programs.Length; $i++) {
     $program = $Programs[$i]
