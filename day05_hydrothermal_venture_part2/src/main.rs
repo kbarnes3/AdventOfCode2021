@@ -8,21 +8,11 @@ fn main() {
     println!("{}", result);
 }
 
-enum LineDirection {
-    Horizontal,
-    Vertical,
-    Diagonal
-}
-
 fn do_work<const T: usize>(data: &[(Point, Point); T]) -> u32 {
     let mut covered_spaces: HashMap<Point, usize> = HashMap::new();
 
     for (point1, point2) in data {
-        match get_line_direction(point1, point2) {
-            LineDirection::Horizontal => mark_horizontal_line(point1, point2, &mut covered_spaces),
-            LineDirection::Vertical => mark_vertical_line(point1, point2, &mut covered_spaces),
-            LineDirection::Diagonal => mark_diagonal_line(point1, point2, &mut covered_spaces),
-        }
+        mark_line(point1, point2, &mut covered_spaces)
     }
 
     let mut double_covered = 0;
@@ -34,88 +24,46 @@ fn do_work<const T: usize>(data: &[(Point, Point); T]) -> u32 {
     double_covered
 }
 
-fn get_line_direction(point1: &Point, point2: &Point) -> LineDirection {
-    if point1.x == point2.x {
-        return LineDirection::Horizontal;
-    }
-    if point1.y == point2.y {
-        return LineDirection::Vertical;
-    }
-
-    LineDirection::Diagonal
-}
-
-fn mark_horizontal_line(point1: &Point, point2: &Point, covered_spaces: &mut HashMap<Point, usize>) {
-    if point1.x != point2.x {
-        panic!("Not a horizontal line!");
-    }
-
-    let start_y: u32;
-    let end_y: u32;
-    if point1.y < point2.y {
-        start_y = point1.y;
-        end_y = point2.y;
-    } else {
-        start_y = point2.y;
-        end_y = point1.y;
-    }
-    for y in start_y..=end_y {
-        increment_covered_space(point1.x, y, covered_spaces);
-    }
-}
-
-fn mark_vertical_line(point1: &Point, point2: &Point, covered_spaces: &mut HashMap<Point, usize>) {
-    if point1.y != point2.y {
-        panic!("Not a vertical line!");
-    }
-
-    let start_x: u32;
-    let end_x: u32;
-    if point1.x < point2.x {
-        start_x = point1.x;
-        end_x = point2.x;
-    } else {
-        start_x = point2.x;
-        end_x = point1.x;
-    }
-    for x in start_x..=end_x {
-        increment_covered_space(x, point1.y, covered_spaces);
-    }
-}
-
 enum Direction {
     Forwards,
-    Backwards
+    Backwards,
+    Zero
 }
 
-fn mark_diagonal_line(point1: &Point, point2: &Point, covered_spaces: &mut HashMap<Point, usize>) {
+fn mark_line(point1: &Point, point2: &Point, covered_spaces: &mut HashMap<Point, usize>) {
     let x_direction: Direction;
     let y_direction: Direction;
 
     if point1.x < point2.x {
         x_direction = Direction::Forwards;
-    } else {
+    } else if point1.x > point2.x {
         x_direction = Direction::Backwards;
+    } else {
+        x_direction = Direction::Zero;
     }
 
     if point1.y < point2.y {
         y_direction = Direction::Forwards;
-    } else {
+    } else if point1.y > point2.y {
         y_direction = Direction::Backwards;
+    } else {
+        y_direction = Direction::Zero;
     }
 
     let mut x = point1.x;
     let mut y = point1.y;
     increment_covered_space(x, y, covered_spaces);
 
-    while (point2.x != x) && (point2.y != y) {
+    while !((point2.x == x) && (point2.y == y)) {
         match x_direction {
             Direction::Forwards => x += 1,
             Direction::Backwards => x -= 1,
+            Direction::Zero => (),
         }
         match y_direction {
             Direction::Forwards => y += 1,
             Direction::Backwards => y -= 1,
+            Direction::Zero => ()
         }
         increment_covered_space(x, y, covered_spaces);
     }
