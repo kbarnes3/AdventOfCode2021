@@ -1,1 +1,1 @@
-pub const SAMPLE_DATA: u32 = 5;
+pub const SAMPLE_DATA: [u32; 5] = [3,4,3,1,2];
