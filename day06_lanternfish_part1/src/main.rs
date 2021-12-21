@@ -1,12 +1,12 @@
 #[allow(unused_imports)]
-use day06_lanternfish_common::{SAMPLE_DATA};
+use day06_lanternfish_common::{SAMPLE_DATA, REAL_DATA};
 
 const DAYS: u32 = 80;
 const NEW_FISH_COUNTER: u32 = 8;
 const RESET_COUNTER: u32 = 6;
 
 fn main() {
-    let result = do_work(&SAMPLE_DATA);
+    let result = do_work(&REAL_DATA);
     println!("{}", result);
 }
 
