@@ -2,15 +2,15 @@
 use day06_lanternfish_common::{SAMPLE_DATA, REAL_DATA};
 
 const DAYS: u32 = 80;
-const NEW_FISH_COUNTER: u32 = 8;
-const RESET_COUNTER: u32 = 6;
+const NEW_FISH_COUNTER: usize = 8;
+const RESET_COUNTER: usize = 6;
 
 fn main() {
     let result = do_work(&REAL_DATA);
     println!("{}", result);
 }
 
-fn do_work<const T: usize>(data: &[u32; T]) -> usize {
+fn do_work<const T: usize>(data: &[usize; T]) -> usize {
     let mut fish = data.to_vec();
 
     for _ in 0..DAYS {
