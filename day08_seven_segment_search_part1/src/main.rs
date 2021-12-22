@@ -1,12 +1,12 @@
 use std::collections::HashSet;
 
 #[allow(unused_imports)]
-use day08_seven_segment_search_common::{Display, SAMPLE_DATA};
+use day08_seven_segment_search_common::{Display, SAMPLE_DATA, REAL_DATA};
 
 const EASY_SEGMENT_COUNTS: [usize; 4] = [2, 3, 4, 7];
 
 fn main() {
-    let result = do_work(&SAMPLE_DATA);
+    let result = do_work(&REAL_DATA);
     println!("{}", result);
 }
 
