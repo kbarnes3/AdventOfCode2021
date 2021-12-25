@@ -6,6 +6,6 @@ fn main() {
     println!("{}", result);
 }
 
-fn do_work(data: &u32) -> u32 {
-    *data
+fn do_work<const T: usize>(data: &[&str; T]) -> u32 {
+    10
 }
