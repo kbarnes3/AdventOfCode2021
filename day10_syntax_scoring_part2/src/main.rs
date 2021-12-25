@@ -8,44 +8,47 @@ fn main() {
     println!("{}", result);
 }
 
-fn do_work<const T: usize>(data: &[&str; T]) -> u32 {
-    let mut score: u32 = 0;
-    let (matching_brackets, scores) = get_lookup_maps();
+fn do_work<const T: usize>(data: &[&str; T]) -> u64 {
+    let mut scores: Vec<u64> = Vec::new();
+    let (matching_brackets, autocomplete_scores) = get_lookup_maps();
 
     for line in data {
-        match evaluate_line(line, &matching_brackets, &scores) {
+        match evaluate_line(line, &matching_brackets, &autocomplete_scores) {
             LineType::Complete |
-            LineType::Incomplete => (),
-            LineType::Corrupted(line_score) => score += line_score
+            LineType::Corrupted => (),
+            LineType::Incomplete(line_score) => scores.push(line_score),
         }
     }
 
-    score
+    scores.sort();
+    let middle: usize = scores.len() / 2;
+
+    scores[middle]
 }
 
-fn get_lookup_maps() -> (HashMap<char, char>, HashMap<char, u32>) {
+fn get_lookup_maps() -> (HashMap<char, char>, HashMap<char, u64>) {
     let mut matching_brackets: HashMap<char, char> = HashMap::with_capacity(4);
     matching_brackets.insert('(', ')');
     matching_brackets.insert('[', ']');
     matching_brackets.insert('{', '}');
     matching_brackets.insert('<', '>');
 
-    let mut scores: HashMap<char, u32> = HashMap::with_capacity(4);
-    scores.insert(')', 3);
-    scores.insert(']', 57);
-    scores.insert('}', 1197);
-    scores.insert('>', 25137);
+    let mut autocomplete_scores: HashMap<char, u64> = HashMap::with_capacity(4);
+    autocomplete_scores.insert(')', 1);
+    autocomplete_scores.insert(']', 2);
+    autocomplete_scores.insert('}', 3);
+    autocomplete_scores.insert('>', 4);
 
-    (matching_brackets, scores)
+    (matching_brackets, autocomplete_scores)
 }
 
 enum LineType {
     Complete,
-    Incomplete,
-    Corrupted(u32),
+    Incomplete(u64),
+    Corrupted,
 }
 
-fn evaluate_line(line: &str, matching_brackets: &HashMap<char, char>, scores: &HashMap<char, u32>) -> LineType {
+fn evaluate_line(line: &str, matching_brackets: &HashMap<char, char>, autocomplete_scores: &HashMap<char, u64>) -> LineType {
     let mut expected_endings: VecDeque<char> = VecDeque::new();
     for c in line.chars() {
         match matching_brackets.get(&c) {
@@ -65,13 +68,13 @@ fn evaluate_line(line: &str, matching_brackets: &HashMap<char, char>, scores: &H
                         } else {
                             // c didn't match the next ending character, so this line is corrupted
                             // Check the score for this character
-                            return get_corrupt_score_for_char(c, scores);
+                            return LineType::Corrupted;
                         }
                     }
                     None => {
                         // There are no more ending characters expected, so this is corrupt
                         // Check the score for this character
-                        return get_corrupt_score_for_char(c, scores)
+                        return LineType::Corrupted;
                     }
                 }
             }
@@ -82,14 +85,19 @@ fn evaluate_line(line: &str, matching_brackets: &HashMap<char, char>, scores: &H
         // We are out of characters and we matched all the opening and closing brackets, so this is complete
         return LineType::Complete;
     } else {
-        // We are out of characters but we have unmatched opening brackets, so this is incomplete
-        return LineType::Incomplete;
-    }
-}
-
-fn get_corrupt_score_for_char(c: char, scores: &HashMap<char, u32>) -> LineType {
-    match scores.get(&c) {
-        Some(score) => return LineType::Corrupted(*score),
-        None => panic!("Unexpected character {}", c)
+        // We are out of characters but we have unmatched opening brackets, so this is incomplete. Find the
+        // autocomplete score
+        let mut score: u64 = 0;
+        while !expected_endings.is_empty() {
+            let ending: char = expected_endings.pop_back().unwrap();
+            match autocomplete_scores.get(&ending) {
+                Some(char_score) => {
+                    score *= 5;
+                    score += char_score;
+                }
+                None => panic!("Unscored ending character {}", ending)
+            }
+        }
+        return LineType::Incomplete(score);
     }
 }
