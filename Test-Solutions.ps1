@@ -18,7 +18,8 @@ $Programs =
     @{"name" = "day08_seven_segment_search_part1"; "output" = "543"},
     @{"name" = "day08_seven_segment_search_part2"; "output" = "994266"},
     @{"name" = "day09_smoke_basin_part1"; "output" = "423"},
-    @{"name" = "day09_smoke_basin_part2"; "output" = "1198704"}
+    @{"name" = "day09_smoke_basin_part2"; "output" = "1198704"},
+    @{"name" = "day10_syntax_scoring_part1"; "output" = "315693"}
 
 for ($i = 0; $i -lt $Programs.Length; $i++) {
     $program = $Programs[$i]
